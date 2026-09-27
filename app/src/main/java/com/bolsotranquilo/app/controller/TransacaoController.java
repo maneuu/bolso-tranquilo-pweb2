@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.bolsotranquilo.app.model.Transacao;
 import com.bolsotranquilo.app.model.enums.Movimento;
 import com.bolsotranquilo.app.service.CategoriaService;
+import com.bolsotranquilo.app.service.ComentarioService;
 import com.bolsotranquilo.app.service.ContaService;
 import com.bolsotranquilo.app.service.TransacaoService;
 
@@ -21,13 +22,16 @@ public class TransacaoController {
     private final TransacaoService transacaoService;
     private final ContaService contaService;
     private final CategoriaService categoriaService;
+    private final ComentarioService comentarioService;
 
     public TransacaoController(TransacaoService transacaoService,
                                 ContaService contaService,
-                                CategoriaService categoriaService) {
+                                CategoriaService categoriaService,
+                                ComentarioService comentarioService) {
         this.transacaoService = transacaoService;
         this.contaService = contaService;
         this.categoriaService = categoriaService;
+        this.comentarioService = comentarioService;
     }
 
     @GetMapping("/contas/{contaId}/transacoes")
@@ -41,6 +45,7 @@ public class TransacaoController {
     public String novo(@PathVariable Long contaId, Model model) {
         model.addAttribute("transacao", new Transacao());
         model.addAttribute("conta", contaService.buscarPorId(contaId));
+        model.addAttribute("contaId", contaId);
         model.addAttribute("categorias", categoriaService.listarAtivas());
         model.addAttribute("movimentos", Movimento.values());
         return "transacao/form";
@@ -59,9 +64,12 @@ public class TransacaoController {
 
     @GetMapping("/transacoes/{id}/editar")
     public String editar(@PathVariable Long id, Model model) {
-        model.addAttribute("transacao", transacaoService.buscarPorId(id));
+        Transacao transacao = transacaoService.buscarPorId(id);
+        model.addAttribute("transacao", transacao);
+        model.addAttribute("contaId", transacao.getConta().getId());
         model.addAttribute("categorias", categoriaService.listarAtivas());
         model.addAttribute("movimentos", Movimento.values());
+        model.addAttribute("comentario", comentarioService.buscarPorTransacao(id));
         return "transacao/form";
     }
 

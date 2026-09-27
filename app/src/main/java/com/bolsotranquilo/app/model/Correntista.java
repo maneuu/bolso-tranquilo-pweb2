@@ -3,7 +3,12 @@ package com.bolsotranquilo.app.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bolsotranquilo.app.model.enums.Papel;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -38,6 +43,10 @@ public class Correntista {
     private boolean administrador;
 
     private boolean bloqueado;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "papel", length = 20)
+    private Papel papel;
 
     @OneToMany(mappedBy = "correntista")
     private List<Conta> contas = new ArrayList<>();

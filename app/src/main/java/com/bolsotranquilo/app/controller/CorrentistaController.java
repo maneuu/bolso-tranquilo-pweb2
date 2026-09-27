@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bolsotranquilo.app.model.Correntista;
+import com.bolsotranquilo.app.model.enums.Papel;
 import com.bolsotranquilo.app.service.CorrentistaService;
 
 @Controller
@@ -31,6 +32,7 @@ public class CorrentistaController {
     @GetMapping("/novo")
     public String novo(Model model) {
         model.addAttribute("correntista", new Correntista());
+        model.addAttribute("papeis", Papel.values());
         return "correntista/form";
     }
 
@@ -45,6 +47,7 @@ public class CorrentistaController {
         } catch (IllegalArgumentException e) {
             // login já existe: volta pro form (não redireciona) pra manter os dados digitados
             model.addAttribute("correntista", correntista);
+            model.addAttribute("papeis", Papel.values());
             model.addAttribute("erro", e.getMessage());
             return "correntista/form";
         }
