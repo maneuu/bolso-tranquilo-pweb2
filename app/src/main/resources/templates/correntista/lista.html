@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(titulo='Correntistas', content=~{::section})}">
+<body>
+<section>
+    <div class="flex items-center justify-between mb-6">
+        <h1 class="text-2xl font-semibold">Correntistas</h1>
+        <a th:href="@{/correntistas/novo}"
+           class="inline-flex items-center rounded-md bg-slate-900 text-white text-sm px-4 py-2 hover:bg-slate-700">
+            Novo correntista
+        </a>
+    </div>
+
+    <div class="bg-white rounded-lg border border-slate-200 overflow-hidden">
+        <table class="w-full text-sm text-left">
+            <thead class="bg-slate-100 text-slate-600 uppercase text-xs">
+                <tr>
+                    <th class="px-4 py-3">Nome</th>
+                    <th class="px-4 py-3">Login</th>
+                    <th class="px-4 py-3">Papel</th>
+                    <th class="px-4 py-3">Administrador</th>
+                    <th class="px-4 py-3">Bloqueado</th>
+                    <th class="px-4 py-3"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="c : ${correntistas}" class="border-t border-slate-100">
+                    <td class="px-4 py-3" th:text="${c.nome}"></td>
+                    <td class="px-4 py-3" th:text="${c.login}"></td>
+                    <td class="px-4 py-3" th:text="${c.papel}"></td>
+                    <td class="px-4 py-3" th:text="${c.administrador} ? 'Sim' : 'Não'"></td>
+                    <td class="px-4 py-3" th:text="${c.bloqueado} ? 'Sim' : 'Não'"></td>
+                    <td class="px-4 py-3 text-right">
+                        <a th:href="@{/correntistas/{id}/contas(id=${c.id})}" class="text-slate-700 hover:underline">Ver contas</a>
+                    </td>
+                </tr>
+                <tr th:if="${correntistas.isEmpty()}">
+                    <td colspan="6" class="px-4 py-6 text-center text-slate-400">Nenhum correntista cadastrado.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+</body>
+</html>

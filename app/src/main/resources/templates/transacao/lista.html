@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(titulo='Extrato', content=~{::section})}">
+<body>
+<section>
+    <div class="flex items-center justify-between mb-6">
+        <div>
+            <h1 class="text-2xl font-semibold" th:text="'Extrato — ' + ${conta.descricao}"></h1>
+            <p class="text-sm text-slate-500" th:text="${conta.numero}"></p>
+        </div>
+        <a th:href="@{/contas/{id}/transacoes/novo(id=${conta.id})}"
+           class="inline-flex items-center rounded-md bg-slate-900 text-white text-sm px-4 py-2 hover:bg-slate-700">
+            Nova transação
+        </a>
+    </div>
+
+    <div class="bg-white rounded-lg border border-slate-200 overflow-hidden">
+        <table class="w-full text-sm text-left">
+            <thead class="bg-slate-100 text-slate-600 uppercase text-xs">
+                <tr>
+                    <th class="px-4 py-3">Data</th>
+                    <th class="px-4 py-3">Descrição</th>
+                    <th class="px-4 py-3">Categoria</th>
+                    <th class="px-4 py-3">Movimento</th>
+                    <th class="px-4 py-3 text-right">Valor</th>
+                    <th class="px-4 py-3"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="t : ${transacoes}" class="border-t border-slate-100">
+                    <td class="px-4 py-3" th:text="${#temporals.format(t.data, 'dd/MM/yyyy')}"></td>
+                    <td class="px-4 py-3" th:text="${t.descricao}"></td>
+                    <td class="px-4 py-3" th:text="${t.categoria.nome}"></td>
+                    <td class="px-4 py-3">
+                        <span class="inline-block rounded-full px-2 py-0.5 text-xs"
+                              th:classappend="${t.movimento.name() == 'CREDITO'} ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'"
+                              th:text="${t.movimento}"></span>
+                    </td>
+                    <td class="px-4 py-3 text-right" th:text="${#numbers.formatCurrency(t.valor)}"></td>
+                    <td class="px-4 py-3 text-right">
+                        <a th:href="@{/transacoes/{id}/editar(id=${t.id})}" class="text-slate-700 hover:underline">Editar</a>
+                    </td>
+                </tr>
+                <tr th:if="${transacoes.isEmpty()}">
+                    <td colspan="6" class="px-4 py-6 text-center text-slate-400">Nenhuma transação registrada.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+</body>
+</html>

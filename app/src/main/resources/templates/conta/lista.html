@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(titulo='Contas', content=~{::section})}">
+<body>
+<section>
+    <div class="flex items-center justify-between mb-6">
+        <h1 class="text-2xl font-semibold">Contas</h1>
+        <a th:href="@{/correntistas/{id}/contas/novo(id=${correntistaId})}"
+           class="inline-flex items-center rounded-md bg-slate-900 text-white text-sm px-4 py-2 hover:bg-slate-700">
+            Nova conta
+        </a>
+    </div>
+
+    <div class="bg-white rounded-lg border border-slate-200 overflow-hidden">
+        <table class="w-full text-sm text-left">
+            <thead class="bg-slate-100 text-slate-600 uppercase text-xs">
+                <tr>
+                    <th class="px-4 py-3">Número</th>
+                    <th class="px-4 py-3">Descrição</th>
+                    <th class="px-4 py-3">Tipo</th>
+                    <th class="px-4 py-3">Dia fechamento</th>
+                    <th class="px-4 py-3"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="conta : ${contas}" class="border-t border-slate-100">
+                    <td class="px-4 py-3" th:text="${conta.numero}"></td>
+                    <td class="px-4 py-3" th:text="${conta.descricao}"></td>
+                    <td class="px-4 py-3">
+                        <span class="inline-block rounded-full px-2 py-0.5 text-xs"
+                              th:classappend="${conta.tipo.name() == 'CARTAO'} ? 'bg-purple-100 text-purple-700' : 'bg-blue-100 text-blue-700'"
+                              th:text="${conta.tipo}"></span>
+                    </td>
+                    <td class="px-4 py-3" th:text="${conta.diaFechamento} ?: '—'"></td>
+                    <td class="px-4 py-3 text-right">
+                        <a th:href="@{/contas/{id}/transacoes(id=${conta.id})}" class="text-slate-700 hover:underline">Ver extrato</a>
+                    </td>
+                </tr>
+                <tr th:if="${contas.isEmpty()}">
+                    <td colspan="5" class="px-4 py-6 text-center text-slate-400">Nenhuma conta cadastrada.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+</body>
+</html>

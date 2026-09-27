@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" th:fragment="layout(titulo, content)">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${titulo} ?: 'SpendWise'">SpendWise</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <header class="bg-slate-900 text-white">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+            <a th:href="@{/}" class="font-semibold text-lg">Bolso Tranquilo</a>
+            <nav class="text-sm space-x-4">
+                <a th:href="@{/}" class="hover:underline">Início</a>
+                <a th:href="@{/correntistas}" class="hover:underline">Correntistas</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-5xl w-full mx-auto px-4 py-6">
+
+        <div th:if="${sucesso}" class="mb-4 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3 text-sm" th:text="${sucesso}"></div>
+        <div th:if="${erro}" class="mb-4 rounded-md bg-red-50 border border-red-200 text-red-800 px-4 py-3 text-sm" th:text="${erro}"></div>
+
+        <div th:replace="${content}"></div>
+    </main>
+
+    <footer class="text-center text-xs text-slate-400 py-4">
+        SpendWise &mdash; Etapa 1
+    </footer>
+
+</body>
+</html>

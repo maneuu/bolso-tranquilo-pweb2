@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(titulo='Início', content=~{::section})}">
+<body>
+<section class="space-y-8">
+    <div class="relative overflow-hidden rounded-2xl bg-slate-900 px-6 py-10 text-white shadow-xl sm:px-10 sm:py-14">
+        <div class="absolute -right-16 -top-20 h-56 w-56 rounded-full bg-emerald-400/20 blur-2xl"></div>
+        <div class="relative max-w-2xl">
+            <p class="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-emerald-300">Bolso Tranquilo</p>
+            <h1 class="text-3xl font-bold tracking-tight sm:text-5xl">Seu dinheiro, mais claro.</h1>
+            <p class="mt-4 max-w-xl text-base leading-7 text-slate-300 sm:text-lg">
+                Organize correntistas, contas e transações em um só lugar para acompanhar sua vida financeira com tranquilidade.
+            </p>
+            <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+                <a th:href="@{/correntistas}"
+                   class="inline-flex items-center justify-center rounded-md bg-emerald-400 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-emerald-300">
+                    Acessar correntistas
+                </a>
+                <a th:href="@{/correntistas/novo}"
+                   class="inline-flex items-center justify-center rounded-md border border-slate-600 px-5 py-3 text-sm font-semibold text-white transition hover:border-slate-400 hover:bg-slate-800">
+                    Cadastrar correntista
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="mb-4 flex items-end justify-between gap-4">
+            <div>
+                <p class="text-sm font-medium text-emerald-700">Navegação rápida</p>
+                <h2 class="mt-1 text-2xl font-semibold text-slate-900">O que você quer fazer?</h2>
+            </div>
+            <span class="hidden text-sm text-slate-500 sm:block">Comece escolhendo um fluxo</span>
+        </div>
+
+        <div class="grid gap-4 md:grid-cols-3">
+            <a th:href="@{/correntistas}"
+               class="group rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-300 hover:shadow-md">
+                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100 text-xl text-emerald-700">◎</div>
+                <h3 class="mt-5 font-semibold text-slate-900">Ver correntistas</h3>
+                <p class="mt-2 text-sm leading-6 text-slate-500">Consulte os usuários cadastrados e acesse as contas de cada pessoa.</p>
+                <span class="mt-4 inline-block text-sm font-semibold text-emerald-700 group-hover:underline">Abrir lista →</span>
+            </a>
+
+            <a th:href="@{/correntistas/novo}"
+               class="group rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-300 hover:shadow-md">
+                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-sky-100 text-xl text-sky-700">+</div>
+                <h3 class="mt-5 font-semibold text-slate-900">Novo correntista</h3>
+                <p class="mt-2 text-sm leading-6 text-slate-500">Cadastre uma pessoa para começar a organizar contas e movimentações.</p>
+                <span class="mt-4 inline-block text-sm font-semibold text-emerald-700 group-hover:underline">Iniciar cadastro →</span>
+            </a>
+
+            <a th:href="@{/correntistas}"
+               class="group rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-300 hover:shadow-md">
+                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-100 text-xl text-amber-700">↗</div>
+                <h3 class="mt-5 font-semibold text-slate-900">Contas e extratos</h3>
+                <p class="mt-2 text-sm leading-6 text-slate-500">Escolha um correntista para consultar contas, extratos e transações.</p>
+                <span class="mt-4 inline-block text-sm font-semibold text-emerald-700 group-hover:underline">Selecionar correntista →</span>
+            </a>
+        </div>
+    </div>
+</section>
+</body>
+</html>
