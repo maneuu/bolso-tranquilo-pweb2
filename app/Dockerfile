@@ -1,0 +1,15 @@
+# Estágio 1: Instala o Maven com Java 25 e compila o código
+FROM maven:3.9-eclipse-temurin-25-alpine AS builder
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
+
+# Estágio 2: Pega o arquivo .jar pronto e roda em um servidor limpo com Java 25
+FROM eclipse-temurin:25-jre-alpine
+WORKDIR /app
+COPY --from=builder /app/target/*.jar app.jar
+
+EXPOSE 8080
+
+ENTRYPOINT ["java", "-jar", "app.jar"]

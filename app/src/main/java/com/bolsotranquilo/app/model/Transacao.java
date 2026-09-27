@@ -14,7 +14,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,14 +35,6 @@ public class Transacao {
     @ToString.Include
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "conta_id", nullable = false)
-    private Conta conta;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "categoria_id", nullable = false)
-    private Categoria categoria;
-
     private LocalDate data;
 
     private String descricao;
@@ -53,6 +44,11 @@ public class Transacao {
     @Enumerated(EnumType.STRING)
     private Movimento movimento;
 
-    @OneToOne(mappedBy = "transacao", fetch = FetchType.LAZY)
-    private Comentario comentario;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "conta_id", nullable = false)
+    private Conta conta;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "categoria_id", nullable = false)
+    private Categoria categoria;
 }
