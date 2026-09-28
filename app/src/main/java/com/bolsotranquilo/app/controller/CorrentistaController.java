@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bolsotranquilo.app.model.Correntista;
-import com.bolsotranquilo.app.model.enums.Papel;
+import com.bolsotranquilo.app.security.SessaoCorrentista;
 import com.bolsotranquilo.app.service.CorrentistaService;
 
 @Controller
@@ -17,22 +17,29 @@ import com.bolsotranquilo.app.service.CorrentistaService;
 public class CorrentistaController {
 
     private final CorrentistaService correntistaService;
+    private final SessaoCorrentista sessao;
 
-    public CorrentistaController(CorrentistaService correntistaService) {
+    public CorrentistaController(CorrentistaService correntistaService, SessaoCorrentista sessao) {
         this.correntistaService = correntistaService;
+        this.sessao = sessao;
     }
 
     // UC20 - Administrador acessa listagem de correntistas
     @GetMapping
     public String listar(Model model) {
+        if (!sessao.isAdministrador()) {
+            return "redirect:/correntistas/" + sessao.getCorrentistaId() + "/contas";
+        }
         model.addAttribute("correntistas", correntistaService.listarTodos());
         return "correntista/lista";
     }
 
     @GetMapping("/novo")
     public String novo(Model model) {
+        if (!sessao.isAdministrador()) {
+            return "redirect:/correntistas/" + sessao.getCorrentistaId() + "/contas";
+        }
         model.addAttribute("correntista", new Correntista());
-        model.addAttribute("papeis", Papel.values());
         return "correntista/form";
     }
 
@@ -40,6 +47,9 @@ public class CorrentistaController {
     @PostMapping
     public String salvar(@ModelAttribute Correntista correntista, Model model,
                           RedirectAttributes redirectAttributes) {
+        if (!sessao.isAdministrador()) {
+            return "redirect:/correntistas/" + sessao.getCorrentistaId() + "/contas";
+        }
         try {
             correntistaService.cadastrar(correntista);
             redirectAttributes.addFlashAttribute("sucesso", "Correntista cadastrado com sucesso.");
@@ -47,7 +57,6 @@ public class CorrentistaController {
         } catch (IllegalArgumentException e) {
             // login já existe: volta pro form (não redireciona) pra manter os dados digitados
             model.addAttribute("correntista", correntista);
-            model.addAttribute("papeis", Papel.values());
             model.addAttribute("erro", e.getMessage());
             return "correntista/form";
         }
