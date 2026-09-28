@@ -33,10 +33,10 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String autenticar(@RequestParam String login,
-                              @RequestParam String senha,
+    public String autenticar(@RequestParam("login") String login,
+                              @RequestParam("senha") String senha,
                               Model model) {
-        Optional<Correntista> resultado = loginService.autenticar(login, senha);
+        Optional<Correntista> resultado = loginService.autenticar(login.trim(), senha);
 
         if (resultado.isEmpty()) {
             model.addAttribute("erro", "Login ou senha inválidos.");
@@ -50,11 +50,12 @@ public class LoginController {
             return "login";
         }
 
-        sessao.logar(correntista.getId(), correntista.getNome(), correntista.getPapel());
+        Papel papel = correntista.getPapel();
+        sessao.logar(correntista.getId(), correntista.getNome(), papel);
 
         // UC20/21 (visão geral) são exclusivas do admin; o correntista
         // cai direto no contexto dele (as próprias contas).
-        if (correntista.getPapel() == Papel.ADMINISTRADOR) {
+        if (papel == Papel.ADMINISTRADOR) {
             return "redirect:/correntistas";
         }
         return "redirect:/correntistas/" + correntista.getId() + "/contas";

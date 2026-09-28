@@ -23,7 +23,7 @@ public class LoginService {
      * (login/senha errado vs. conta bloqueada).
      */
     public Optional<Correntista> autenticar(String login, String senha) {
-        return correntistaRepository.findByLogin(login)
-                .filter(c -> c.getSenha().equals(senha));
+        return correntistaRepository.findByLoginIgnoreCase(login.trim())
+            .filter(c -> c.getSenha() != null && c.getSenha().trim().equals(senha));
     }
 }
