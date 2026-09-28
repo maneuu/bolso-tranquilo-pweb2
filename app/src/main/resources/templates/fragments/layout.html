@@ -6,27 +6,39 @@
     <title th:text="${titulo} ?: 'SpendWise'">SpendWise</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+<body class="min-h-screen bg-slate-200 text-slate-700 flex flex-col">
 
-    <header class="bg-slate-900 text-white">
-        <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-            <a th:href="@{/}" class="font-semibold text-lg">Bolso Tranquilo</a>
-            <nav class="text-sm space-x-4">
-                <a th:href="@{/}" class="hover:underline">Início</a>
-                <a th:href="@{/correntistas}" class="hover:underline">Correntistas</a>
+    <header class="border-b border-slate-950 bg-slate-800 text-slate-100">
+        <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+            <a th:href="@{/}" class="font-semibold text-white">SpendWise</a>
+            <nav class="flex items-center gap-4 text-sm text-slate-300">
+                <a th:href="@{/}" class="hover:text-white hover:underline">Início</a>
+
+                <a th:if="${sessaoAdmin}" th:href="@{/correntistas}" class="hover:text-white hover:underline">Correntistas</a>
+                <a th:if="${sessaoLogada and !sessaoAdmin}"
+                   th:href="@{/correntistas/{id}/contas(id=${sessaoCorrentistaId})}"
+                   class="hover:text-white hover:underline">Minhas contas</a>
+
+                <span th:if="${sessaoLogada}" class="border-l border-slate-600 pl-4 text-slate-300" th:text="${sessaoNome}"></span>
+
+                <form th:if="${sessaoLogada}" th:action="@{/logout}" method="post" class="inline">
+                    <button type="submit" class="text-slate-300 hover:text-white hover:underline">Sair</button>
+                </form>
+
+                <a th:unless="${sessaoLogada}" th:href="@{/login}" class="hover:text-white hover:underline">Entrar</a>
             </nav>
         </div>
     </header>
 
-    <main class="flex-1 max-w-5xl w-full mx-auto px-4 py-6">
+    <main class="mx-auto w-full max-w-6xl flex-1 border-x border-slate-300 bg-slate-100 px-4 py-8">
 
-        <div th:if="${sucesso}" class="mb-4 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3 text-sm" th:text="${sucesso}"></div>
-        <div th:if="${erro}" class="mb-4 rounded-md bg-red-50 border border-red-200 text-red-800 px-4 py-3 text-sm" th:text="${erro}"></div>
+        <div th:if="${sucesso}" class="mb-5 border-l-4 border-emerald-600 bg-emerald-50 px-4 py-3 text-sm text-emerald-800" th:text="${sucesso}"></div>
+        <div th:if="${erro}" class="mb-5 border-l-4 border-red-600 bg-red-50 px-4 py-3 text-sm text-red-800" th:text="${erro}"></div>
 
         <div th:replace="${content}"></div>
     </main>
 
-    <footer class="text-center text-xs text-slate-400 py-4">
+    <footer class="border-t border-slate-400 bg-slate-200 py-4 text-center text-xs text-slate-500">
         SpendWise &mdash; Etapa 1
     </footer>
 

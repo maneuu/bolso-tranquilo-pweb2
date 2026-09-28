@@ -35,7 +35,7 @@ public class TransacaoController {
     }
 
     @GetMapping("/contas/{contaId}/transacoes")
-    public String listar(@PathVariable Long contaId, Model model) {
+        public String listar(@PathVariable Long contaId, Model model) {
         model.addAttribute("conta", contaService.buscarPorId(contaId));
         model.addAttribute("transacoes", transacaoService.listarPorConta(contaId));
         return "transacao/lista";

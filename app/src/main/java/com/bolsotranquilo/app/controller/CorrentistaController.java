@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bolsotranquilo.app.model.Correntista;
+import com.bolsotranquilo.app.model.enums.Papel;
 import com.bolsotranquilo.app.security.SessaoCorrentista;
 import com.bolsotranquilo.app.service.CorrentistaService;
 
@@ -40,6 +41,7 @@ public class CorrentistaController {
             return "redirect:/correntistas/" + sessao.getCorrentistaId() + "/contas";
         }
         model.addAttribute("correntista", new Correntista());
+        model.addAttribute("papeis", Papel.values());
         return "correntista/form";
     }
 

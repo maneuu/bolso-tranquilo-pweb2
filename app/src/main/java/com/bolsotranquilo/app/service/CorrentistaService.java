@@ -17,7 +17,7 @@ public class CorrentistaService {
     }
 
     public Correntista cadastrar(Correntista correntista) {
-        correntistaRepository.findByLogin(correntista.getLogin()).ifPresent(existente -> {
+        correntistaRepository.findByLoginIgnoreCase(correntista.getLogin()).ifPresent(existente -> {
             throw new IllegalArgumentException("Já existe um correntista com esse login.");
         });
         return correntistaRepository.save(correntista);

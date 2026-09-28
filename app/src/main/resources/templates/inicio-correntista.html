@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(titulo='Início', content=~{::section})}">
+<body>
+<section class="space-y-6">
+    <div class="border-b border-slate-200 pb-5">
+        <p class="text-sm text-slate-500">Área do correntista</p>
+        <h1 class="mt-1 text-2xl font-semibold text-slate-900">
+            Olá, <span th:text="${sessaoNome}">correntista</span>
+        </h1>
+        <p class="mt-2 text-sm text-slate-600">Consulte suas contas e movimentações.</p>
+    </div>
+
+    <div class="border-y border-slate-300 bg-slate-50">
+        <a th:href="@{/correntistas/{id}/contas(id=${sessaoCorrentistaId})}"
+           class="flex items-center justify-between px-4 py-4 hover:bg-slate-50">
+            <span>
+                <span class="block font-medium text-slate-900">Minhas contas</span>
+                <span class="mt-1 block text-sm text-slate-500">Ver contas, saldos e extratos.</span>
+            </span>
+            <span class="text-sm text-slate-500">Abrir &rarr;</span>
+        </a>
+    </div>
+</section>
+</body>
+</html>

@@ -11,14 +11,13 @@
         </a>
     </div>
 
-    <div class="bg-white rounded-lg border border-slate-200 overflow-hidden">
+    <div class="bg-slate-50 border border-slate-400 overflow-hidden">
         <table class="w-full text-sm text-left">
             <thead class="bg-slate-100 text-slate-600 uppercase text-xs">
                 <tr>
                     <th class="px-4 py-3">Nome</th>
                     <th class="px-4 py-3">Login</th>
                     <th class="px-4 py-3">Papel</th>
-                    <th class="px-4 py-3">Administrador</th>
                     <th class="px-4 py-3">Bloqueado</th>
                     <th class="px-4 py-3"></th>
                 </tr>
@@ -28,14 +27,13 @@
                     <td class="px-4 py-3" th:text="${c.nome}"></td>
                     <td class="px-4 py-3" th:text="${c.login}"></td>
                     <td class="px-4 py-3" th:text="${c.papel}"></td>
-                    <td class="px-4 py-3" th:text="${c.administrador} ? 'Sim' : 'Não'"></td>
                     <td class="px-4 py-3" th:text="${c.bloqueado} ? 'Sim' : 'Não'"></td>
                     <td class="px-4 py-3 text-right">
                         <a th:href="@{/correntistas/{id}/contas(id=${c.id})}" class="text-slate-700 hover:underline">Ver contas</a>
                     </td>
                 </tr>
                 <tr th:if="${correntistas.isEmpty()}">
-                    <td colspan="6" class="px-4 py-6 text-center text-slate-400">Nenhum correntista cadastrado.</td>
+                    <td colspan="5" class="px-4 py-6 text-center text-slate-400">Nenhum correntista cadastrado.</td>
                 </tr>
             </tbody>
         </table>

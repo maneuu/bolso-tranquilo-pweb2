@@ -40,8 +40,6 @@ public class Correntista {
 
     private String senha;
 
-    private boolean administrador;
-
     private boolean bloqueado;
 
     @Enumerated(EnumType.STRING)

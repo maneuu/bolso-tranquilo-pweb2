@@ -8,5 +8,5 @@ import com.bolsotranquilo.app.model.Correntista;
 
 public interface CorrentistaRepository extends JpaRepository<Correntista, Long> {
 
-    Optional<Correntista> findByLogin(String login);
+    Optional<Correntista> findByLoginIgnoreCase(String login);
 }

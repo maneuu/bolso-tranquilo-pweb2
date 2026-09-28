@@ -6,7 +6,7 @@
     <h1 class="text-2xl font-semibold mb-6">Novo correntista</h1>
 
     <form th:action="@{/correntistas}" th:object="${correntista}" method="post"
-          class="bg-white rounded-lg border border-slate-200 p-6 space-y-4">
+          class="bg-slate-50 border border-slate-400 p-6 space-y-4">
 
         <div>
             <label class="block text-sm font-medium text-slate-700 mb-1">Nome</label>
@@ -33,11 +33,6 @@
                 <option th:each="p : ${papeis}" th:value="${p}" th:text="${p}"></option>
             </select>
         </div>
-
-        <label class="flex items-center gap-2 text-sm text-slate-700">
-            <input type="checkbox" th:field="*{administrador}" class="rounded border-slate-300">
-            Administrador
-        </label>
 
         <div class="flex gap-3 pt-2">
             <button type="submit" class="rounded-md bg-slate-900 text-white text-sm px-4 py-2 hover:bg-slate-700">Salvar</button>

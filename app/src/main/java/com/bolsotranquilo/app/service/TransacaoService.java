@@ -53,4 +53,5 @@ public class TransacaoService {
     public List<Transacao> listarPorConta(Long contaId) {
         return transacaoRepository.findByContaIdOrderByDataDesc(contaId);
     }
+
 }
