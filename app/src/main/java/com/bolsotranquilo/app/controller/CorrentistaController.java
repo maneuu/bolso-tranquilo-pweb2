@@ -29,7 +29,7 @@ public class CorrentistaController {
     @GetMapping
     public String listar(Model model, HttpSession session) {
         if (!isAdministrador(session)) {
-            return "redirect:/correntistas/" + session.getAttribute("correntistaId") + "/contas";
+            return minhasContas(session);
         }
         model.addAttribute("correntistas", correntistaService.listarTodos());
         return "correntista/lista";
@@ -38,7 +38,7 @@ public class CorrentistaController {
     @GetMapping("/novo")
     public String novo(Model model, HttpSession session) {
         if (!isAdministrador(session)) {
-            return "redirect:/correntistas/" + session.getAttribute("correntistaId") + "/contas";
+            return minhasContas(session);
         }
         model.addAttribute("correntista", new Correntista());
         model.addAttribute("papeis", Papel.values());
@@ -51,7 +51,7 @@ public class CorrentistaController {
                           RedirectAttributes redirectAttributes,
                           HttpSession session) {
         if (!isAdministrador(session)) {
-            return "redirect:/correntistas/" + session.getAttribute("correntistaId") + "/contas";
+            return minhasContas(session);
         }
         try {
             correntistaService.cadastrar(correntista);
@@ -60,6 +60,7 @@ public class CorrentistaController {
         } catch (IllegalArgumentException e) {
             // login já existe: volta pro form (não redireciona) pra manter os dados digitados
             model.addAttribute("correntista", correntista);
+            model.addAttribute("papeis", Papel.values());
             model.addAttribute("erro", e.getMessage());
             return "correntista/form";
         }
@@ -69,27 +70,31 @@ public class CorrentistaController {
     public String bloquear(@PathVariable Long id,
                            RedirectAttributes redirectAttributes,
                            HttpSession session) {
-        if (!isAdministrador(session)) {
-            return "redirect:/correntistas/" + session.getAttribute("correntistaId") + "/contas";
-        }
-        correntistaService.bloquear(id);
-        redirectAttributes.addFlashAttribute("sucesso", "Correntista bloqueado com sucesso.");
-        return "redirect:/correntistas";
+        return alterarBloqueio(id, true, "Correntista bloqueado com sucesso.", redirectAttributes, session);
     }
 
     @PostMapping("/{id}/desbloquear")
     public String desbloquear(@PathVariable Long id,
                               RedirectAttributes redirectAttributes,
                               HttpSession session) {
+        return alterarBloqueio(id, false, "Correntista desbloqueado com sucesso.", redirectAttributes, session);
+    }
+
+    private String alterarBloqueio(Long id, boolean bloqueado, String mensagem,
+                                   RedirectAttributes redirectAttributes, HttpSession session) {
         if (!isAdministrador(session)) {
-            return "redirect:/correntistas/" + session.getAttribute("correntistaId") + "/contas";
+            return minhasContas(session);
         }
-        correntistaService.desbloquear(id);
-        redirectAttributes.addFlashAttribute("sucesso", "Correntista desbloqueado com sucesso.");
+        correntistaService.alterarBloqueio(id, bloqueado);
+        redirectAttributes.addFlashAttribute("sucesso", mensagem);
         return "redirect:/correntistas";
     }
 
     private boolean isAdministrador(HttpSession session) {
         return Papel.ADMINISTRADOR.equals(session.getAttribute("papel"));
+    }
+
+    private String minhasContas(HttpSession session) {
+        return "redirect:/correntistas/" + session.getAttribute("correntistaId") + "/contas";
     }
 }

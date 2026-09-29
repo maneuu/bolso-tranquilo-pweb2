@@ -1,7 +1,6 @@
 package com.bolsotranquilo.app.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,7 +26,6 @@ public class ComentarioController {
     @PostMapping("/transacoes/{transacaoId}/comentario")
     public String adicionar(@PathVariable Long transacaoId,
                              @RequestParam String texto,
-                             Model model,
                              RedirectAttributes redirectAttributes) {
         Transacao transacao = transacaoService.buscarPorId(transacaoId);
         try {

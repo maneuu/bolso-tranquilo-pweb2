@@ -30,7 +30,7 @@ public class ContaController {
     @GetMapping
     public String listar(@PathVariable Long correntistaId, Model model, HttpSession session) {
         if (!podeAcessar(correntistaId, session)) {
-            return "redirect:/correntistas/" + session.getAttribute("correntistaId") + "/contas";
+            return minhasContas(session);
         }
         model.addAttribute("contas", contaService.listarPorCorrentista(correntistaId));
         model.addAttribute("correntistaId", correntistaId);
@@ -40,7 +40,7 @@ public class ContaController {
     @GetMapping("/novo")
     public String novo(@PathVariable Long correntistaId, Model model, HttpSession session) {
         if (!podeAcessar(correntistaId, session)) {
-            return "redirect:/correntistas/" + session.getAttribute("correntistaId") + "/contas";
+            return minhasContas(session);
         }
         model.addAttribute("conta", new Conta());
         model.addAttribute("tipos", TipoConta.values());
@@ -55,7 +55,7 @@ public class ContaController {
                           RedirectAttributes redirectAttributes,
                           HttpSession session) {
         if (!podeAcessar(correntistaId, session)) {
-            return "redirect:/correntistas/" + session.getAttribute("correntistaId") + "/contas";
+            return minhasContas(session);
         }
         contaService.cadastrar(correntistaId, conta);
         redirectAttributes.addFlashAttribute("sucesso", "Conta cadastrada com sucesso.");
@@ -66,5 +66,9 @@ public class ContaController {
     private boolean podeAcessar(Long correntistaId, HttpSession session) {
         return Papel.ADMINISTRADOR.equals(session.getAttribute("papel"))
                 || correntistaId.equals(session.getAttribute("correntistaId"));
+    }
+
+    private String minhasContas(HttpSession session) {
+        return "redirect:/correntistas/" + session.getAttribute("correntistaId") + "/contas";
     }
 }
