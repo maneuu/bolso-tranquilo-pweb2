@@ -10,35 +10,34 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bolsotranquilo.app.model.Correntista;
 import com.bolsotranquilo.app.model.enums.Papel;
-import com.bolsotranquilo.app.security.SessaoCorrentista;
 import com.bolsotranquilo.app.service.CorrentistaService;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/correntistas")
 public class CorrentistaController {
 
     private final CorrentistaService correntistaService;
-    private final SessaoCorrentista sessao;
 
-    public CorrentistaController(CorrentistaService correntistaService, SessaoCorrentista sessao) {
+    public CorrentistaController(CorrentistaService correntistaService) {
         this.correntistaService = correntistaService;
-        this.sessao = sessao;
     }
 
     // UC20 - Administrador acessa listagem de correntistas
     @GetMapping
-    public String listar(Model model) {
-        if (!sessao.isAdministrador()) {
-            return "redirect:/correntistas/" + sessao.getCorrentistaId() + "/contas";
+    public String listar(Model model, HttpSession session) {
+        if (!isAdministrador(session)) {
+            return "redirect:/correntistas/" + session.getAttribute("correntistaId") + "/contas";
         }
         model.addAttribute("correntistas", correntistaService.listarTodos());
         return "correntista/lista";
     }
 
     @GetMapping("/novo")
-    public String novo(Model model) {
-        if (!sessao.isAdministrador()) {
-            return "redirect:/correntistas/" + sessao.getCorrentistaId() + "/contas";
+    public String novo(Model model, HttpSession session) {
+        if (!isAdministrador(session)) {
+            return "redirect:/correntistas/" + session.getAttribute("correntistaId") + "/contas";
         }
         model.addAttribute("correntista", new Correntista());
         model.addAttribute("papeis", Papel.values());
@@ -48,9 +47,10 @@ public class CorrentistaController {
     // UC21 - Administrador cadastra correntista
     @PostMapping
     public String salvar(@ModelAttribute Correntista correntista, Model model,
-                          RedirectAttributes redirectAttributes) {
-        if (!sessao.isAdministrador()) {
-            return "redirect:/correntistas/" + sessao.getCorrentistaId() + "/contas";
+                          RedirectAttributes redirectAttributes,
+                          HttpSession session) {
+        if (!isAdministrador(session)) {
+            return "redirect:/correntistas/" + session.getAttribute("correntistaId") + "/contas";
         }
         try {
             correntistaService.cadastrar(correntista);
@@ -62,5 +62,9 @@ public class CorrentistaController {
             model.addAttribute("erro", e.getMessage());
             return "correntista/form";
         }
+    }
+
+    private boolean isAdministrador(HttpSession session) {
+        return Papel.ADMINISTRADOR.equals(session.getAttribute("papel"));
     }
 }

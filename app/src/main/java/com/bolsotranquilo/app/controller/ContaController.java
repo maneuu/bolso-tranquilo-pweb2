@@ -10,27 +10,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bolsotranquilo.app.model.Conta;
+import com.bolsotranquilo.app.model.enums.Papel;
 import com.bolsotranquilo.app.model.enums.TipoConta;
-import com.bolsotranquilo.app.security.SessaoCorrentista;
 import com.bolsotranquilo.app.service.ContaService;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/correntistas/{correntistaId}/contas")
 public class ContaController {
 
     private final ContaService contaService;
-    private final SessaoCorrentista sessao;
 
-    public ContaController(ContaService contaService, SessaoCorrentista sessao) {
+    public ContaController(ContaService contaService) {
         this.contaService = contaService;
-        this.sessao = sessao;
     }
 
     // UC02 - Correntista acessar contas
     @GetMapping
-    public String listar(@PathVariable Long correntistaId, Model model) {
-        if (!podeAcessar(correntistaId)) {
-            return "redirect:/correntistas/" + sessao.getCorrentistaId() + "/contas";
+    public String listar(@PathVariable Long correntistaId, Model model, HttpSession session) {
+        if (!podeAcessar(correntistaId, session)) {
+            return "redirect:/correntistas/" + session.getAttribute("correntistaId") + "/contas";
         }
         model.addAttribute("contas", contaService.listarPorCorrentista(correntistaId));
         model.addAttribute("correntistaId", correntistaId);
@@ -38,9 +38,9 @@ public class ContaController {
     }
 
     @GetMapping("/novo")
-    public String novo(@PathVariable Long correntistaId, Model model) {
-        if (!podeAcessar(correntistaId)) {
-            return "redirect:/correntistas/" + sessao.getCorrentistaId() + "/contas";
+    public String novo(@PathVariable Long correntistaId, Model model, HttpSession session) {
+        if (!podeAcessar(correntistaId, session)) {
+            return "redirect:/correntistas/" + session.getAttribute("correntistaId") + "/contas";
         }
         model.addAttribute("conta", new Conta());
         model.addAttribute("tipos", TipoConta.values());
@@ -52,9 +52,10 @@ public class ContaController {
     @PostMapping
     public String salvar(@PathVariable Long correntistaId,
                           @ModelAttribute Conta conta,
-                          RedirectAttributes redirectAttributes) {
-        if (!podeAcessar(correntistaId)) {
-            return "redirect:/correntistas/" + sessao.getCorrentistaId() + "/contas";
+                          RedirectAttributes redirectAttributes,
+                          HttpSession session) {
+        if (!podeAcessar(correntistaId, session)) {
+            return "redirect:/correntistas/" + session.getAttribute("correntistaId") + "/contas";
         }
         contaService.cadastrar(correntistaId, conta);
         redirectAttributes.addFlashAttribute("sucesso", "Conta cadastrada com sucesso.");
@@ -62,7 +63,8 @@ public class ContaController {
     }
 
     // Admin vê contas de qualquer um; correntista só as próprias
-    private boolean podeAcessar(Long correntistaId) {
-        return sessao.isAdministrador() || correntistaId.equals(sessao.getCorrentistaId());
+    private boolean podeAcessar(Long correntistaId, HttpSession session) {
+        return Papel.ADMINISTRADOR.equals(session.getAttribute("papel"))
+                || correntistaId.equals(session.getAttribute("correntistaId"));
     }
 }

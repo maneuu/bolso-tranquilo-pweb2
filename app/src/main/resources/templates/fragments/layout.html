@@ -3,14 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${titulo} ?: 'SpendWise'">SpendWise</title>
+    <title th:text="${titulo} ?: 'BolsoTranquilo'">BolsoTranquilo</title>
     <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="min-h-screen bg-slate-200 text-slate-700 flex flex-col">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
 
-    <header class="border-b border-slate-950 bg-slate-800 text-slate-100">
+        .rounded-md,
+        .rounded-lg,
+        .rounded-xl,
+        .rounded-2xl {
+            border-radius: 0 !important;
+        }
+
+        button.bg-slate-900,
+        a.bg-slate-900 {
+            background-color: #2f4f6f !important;
+        }
+
+        button.bg-slate-900:hover,
+        a.bg-slate-900:hover {
+            background-color: #1f3a55 !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-slate-300 text-slate-700 flex flex-col">
+
+    <header class="border-b border-slate-950 bg-[#2f4f6f] text-slate-100">
         <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-            <a th:href="@{/}" class="font-semibold text-white">SpendWise</a>
+            <a th:href="@{/}" class="font-semibold text-white">BolsoTranquilo</a>
             <nav class="flex items-center gap-4 text-sm text-slate-300">
                 <a th:href="@{/}" class="hover:text-white hover:underline">Início</a>
 
@@ -30,7 +52,7 @@
         </div>
     </header>
 
-    <main class="mx-auto w-full max-w-6xl flex-1 border-x border-slate-300 bg-slate-100 px-4 py-8">
+    <main class="mx-auto w-full max-w-6xl flex-1 border-x border-slate-400 bg-slate-100 px-4 py-8">
 
         <div th:if="${sucesso}" class="mb-5 border-l-4 border-emerald-600 bg-emerald-50 px-4 py-3 text-sm text-emerald-800" th:text="${sucesso}"></div>
         <div th:if="${erro}" class="mb-5 border-l-4 border-red-600 bg-red-50 px-4 py-3 text-sm text-red-800" th:text="${erro}"></div>
@@ -38,8 +60,8 @@
         <div th:replace="${content}"></div>
     </main>
 
-    <footer class="border-t border-slate-400 bg-slate-200 py-4 text-center text-xs text-slate-500">
-        SpendWise &mdash; Etapa 1
+    <footer class="border-t border-slate-500 bg-slate-300 py-4 text-center text-xs text-slate-600">
+        BolsoTranquilo &mdash; Etapa 1
     </footer>
 
 </body>

@@ -10,23 +10,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bolsotranquilo.app.model.Correntista;
 import com.bolsotranquilo.app.model.enums.Papel;
-import com.bolsotranquilo.app.security.SessaoCorrentista;
 import com.bolsotranquilo.app.service.LoginService;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class LoginController {
 
     private final LoginService loginService;
-    private final SessaoCorrentista sessao;
 
-    public LoginController(LoginService loginService, SessaoCorrentista sessao) {
+    public LoginController(LoginService loginService) {
         this.loginService = loginService;
-        this.sessao = sessao;
     }
 
     @GetMapping("/login")
-    public String form() {
-        if (sessao.estaLogado()) {
+    public String form(HttpSession session) {
+        if (session.getAttribute("correntistaId") != null) {
             return "redirect:/";
         }
         return "login";
@@ -35,6 +34,7 @@ public class LoginController {
     @PostMapping("/login")
     public String autenticar(@RequestParam("login") String login,
                               @RequestParam("senha") String senha,
+                              HttpSession session,
                               Model model) {
         Optional<Correntista> resultado = loginService.autenticar(login.trim(), senha);
 
@@ -51,10 +51,10 @@ public class LoginController {
         }
 
         Papel papel = correntista.getPapel();
-        sessao.logar(correntista.getId(), correntista.getNome(), papel);
+        session.setAttribute("correntistaId", correntista.getId());
+        session.setAttribute("sessaoNome", correntista.getNome());
+        session.setAttribute("papel", papel);
 
-        // UC20/21 (visão geral) são exclusivas do admin; o correntista
-        // cai direto no contexto dele (as próprias contas).
         if (papel == Papel.ADMINISTRADOR) {
             return "redirect:/correntistas";
         }
@@ -62,8 +62,8 @@ public class LoginController {
     }
 
     @PostMapping("/logout")
-    public String sair() {
-        sessao.deslogar();
+    public String sair(HttpSession session) {
+        session.invalidate();
         return "redirect:/login";
     }
 }
