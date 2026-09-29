@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -62,6 +63,30 @@ public class CorrentistaController {
             model.addAttribute("erro", e.getMessage());
             return "correntista/form";
         }
+    }
+
+    @PostMapping("/{id}/bloquear")
+    public String bloquear(@PathVariable Long id,
+                           RedirectAttributes redirectAttributes,
+                           HttpSession session) {
+        if (!isAdministrador(session)) {
+            return "redirect:/correntistas/" + session.getAttribute("correntistaId") + "/contas";
+        }
+        correntistaService.bloquear(id);
+        redirectAttributes.addFlashAttribute("sucesso", "Correntista bloqueado com sucesso.");
+        return "redirect:/correntistas";
+    }
+
+    @PostMapping("/{id}/desbloquear")
+    public String desbloquear(@PathVariable Long id,
+                              RedirectAttributes redirectAttributes,
+                              HttpSession session) {
+        if (!isAdministrador(session)) {
+            return "redirect:/correntistas/" + session.getAttribute("correntistaId") + "/contas";
+        }
+        correntistaService.desbloquear(id);
+        redirectAttributes.addFlashAttribute("sucesso", "Correntista desbloqueado com sucesso.");
+        return "redirect:/correntistas";
     }
 
     private boolean isAdministrador(HttpSession session) {

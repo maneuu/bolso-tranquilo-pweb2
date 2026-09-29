@@ -31,4 +31,16 @@ public class CorrentistaService {
         return correntistaRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Correntista não encontrado: " + id));
     }
+
+    public void bloquear(Long id) {
+        Correntista correntista = buscarPorId(id);
+        correntista.setBloqueado(true);
+        correntistaRepository.save(correntista);
+    }
+
+    public void desbloquear(Long id) {
+        Correntista correntista = buscarPorId(id);
+        correntista.setBloqueado(false);
+        correntistaRepository.save(correntista);
+    }
 }

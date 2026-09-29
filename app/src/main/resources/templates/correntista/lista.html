@@ -30,6 +30,14 @@
                     <td class="px-4 py-3" th:text="${c.bloqueado} ? 'Sim' : 'Não'"></td>
                     <td class="px-4 py-3 text-right">
                         <a th:href="@{/correntistas/{id}/contas(id=${c.id})}" class="text-slate-700 hover:underline">Ver contas</a>
+                                                <form th:if="${!c.bloqueado}" th:action="@{/correntistas/{id}/bloquear(id=${c.id})}"
+                              method="post" class="ml-3 inline">
+                            <button type="submit" class="text-red-700 hover:underline">Bloquear</button>
+                        </form>
+                                                <form th:if="${c.bloqueado}" th:action="@{/correntistas/{id}/desbloquear(id=${c.id})}"
+                                                            method="post" class="ml-3 inline">
+                                                        <button type="submit" class="text-green-700 hover:underline">Desbloquear</button>
+                                                </form>
                     </td>
                 </tr>
                 <tr th:if="${correntistas.isEmpty()}">
