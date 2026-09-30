@@ -1,5 +1,7 @@
 package com.bolsotranquilo.app.controller;
 
+import java.time.LocalDate;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,9 +37,16 @@ public class TransacaoController {
     }
 
     @GetMapping("/contas/{contaId}/transacoes")
-        public String listar(@PathVariable Long contaId, Model model) {
+        public String listar(@PathVariable Long contaId,
+                             @RequestParam(required = false) LocalDate dataInicio,
+                             @RequestParam(required = false) LocalDate dataFim,
+                             Model model) {
+        var transacoes = transacaoService.listarPorContaEPeriodo(contaId, dataInicio, dataFim);
         model.addAttribute("conta", contaService.buscarPorId(contaId));
-        model.addAttribute("transacoes", transacaoService.listarPorConta(contaId));
+        model.addAttribute("transacoes", transacoes);
+        model.addAttribute("saldo", transacaoService.calcularSaldo(transacoes));
+        model.addAttribute("dataInicio", dataInicio);
+        model.addAttribute("dataFim", dataFim);
         return "transacao/lista";
     }
 

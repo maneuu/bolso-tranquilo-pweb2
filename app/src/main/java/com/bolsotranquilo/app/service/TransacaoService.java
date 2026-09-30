@@ -1,5 +1,7 @@
 package com.bolsotranquilo.app.service;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.bolsotranquilo.app.model.Categoria;
 import com.bolsotranquilo.app.model.Conta;
 import com.bolsotranquilo.app.model.Transacao;
+import com.bolsotranquilo.app.model.enums.Movimento;
 import com.bolsotranquilo.app.repository.TransacaoRepository;
 
 @Service
@@ -52,6 +55,27 @@ public class TransacaoService {
 
     public List<Transacao> listarPorConta(Long contaId) {
         return transacaoRepository.findByContaIdOrderByDataDesc(contaId);
+    }
+
+    public List<Transacao> listarPorContaEPeriodo(Long contaId, LocalDate dataInicio, LocalDate dataFim) {
+        if (dataInicio == null && dataFim == null) {
+            return transacaoRepository.findByContaIdOrderByDataDesc(contaId);
+        }
+        if (dataInicio == null) {
+            return transacaoRepository.findByContaIdAndDataLessThanEqualOrderByDataDesc(contaId, dataFim);
+        }
+        if (dataFim == null) {
+            return transacaoRepository.findByContaIdAndDataGreaterThanEqualOrderByDataDesc(contaId, dataInicio);
+        }
+        return transacaoRepository.findByContaIdAndDataBetweenOrderByDataDesc(contaId, dataInicio, dataFim);
+    }
+
+    public BigDecimal calcularSaldo(List<Transacao> transacoes) {
+        return transacoes.stream()
+                .map(transacao -> transacao.getMovimento() == Movimento.CREDITO
+                        ? transacao.getValor()
+                        : transacao.getValor().negate())
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
 }
