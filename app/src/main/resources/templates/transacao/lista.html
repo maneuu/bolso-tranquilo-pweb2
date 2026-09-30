@@ -59,8 +59,8 @@
                     class="cursor-pointer hover:bg-slate-100"
                     tabindex="0"
                     role="link"
-                    th:onclick="|window.location.href='@{/transacoes/{id}/editar(id=${t.id})}'|"
-                    th:onkeydown="|if (event.key === 'Enter') window.location.href='@{/transacoes/{id}/editar(id=${t.id})}'|">
+                    th:onclick="|window.location.href='@{/transacoes/{id}(id=${t.id})}'|"
+                    th:onkeydown="|if (event.key === 'Enter') window.location.href='@{/transacoes/{id}(id=${t.id})}'|">
                     <td class="whitespace-nowrap border border-slate-300 px-3 py-2 text-slate-700" th:text="${#temporals.format(t.data, 'dd/MM/yyyy')}"></td>
                     <td class="border border-slate-300 px-3 py-2 text-slate-900" th:text="${t.descricao}"></td>
                     <td class="border border-slate-300 px-3 py-2 text-slate-700" th:text="${t.categoria.nome}"></td>

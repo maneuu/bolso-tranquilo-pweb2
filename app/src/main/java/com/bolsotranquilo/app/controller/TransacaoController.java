@@ -60,6 +60,14 @@ public class TransacaoController {
         return "transacao/form";
     }
 
+    @GetMapping("/transacoes/{id}")
+    public String consultar(@PathVariable Long id, Model model) {
+        Transacao transacao = transacaoService.buscarPorId(id);
+        model.addAttribute("transacao", transacao);
+        model.addAttribute("comentarios", comentarioService.buscarPorTransacao(id));
+        return "transacao/detalhes";
+    }
+
     // UC03 - Correntista cria transação para conta
     @PostMapping("/contas/{contaId}/transacoes")
     public String salvar(@PathVariable Long contaId,
@@ -78,7 +86,7 @@ public class TransacaoController {
         model.addAttribute("contaId", transacao.getConta().getId());
         model.addAttribute("categorias", categoriaService.listarAtivas());
         model.addAttribute("movimentos", Movimento.values());
-        model.addAttribute("comentario", comentarioService.buscarPorTransacao(id));
+        model.addAttribute("comentarios", comentarioService.buscarPorTransacao(id));
         return "transacao/form";
     }
 

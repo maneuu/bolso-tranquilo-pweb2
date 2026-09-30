@@ -1,5 +1,7 @@
 package com.bolsotranquilo.app.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.bolsotranquilo.app.model.Comentario;
@@ -18,9 +20,6 @@ public class ComentarioService {
     }
 
     public Comentario adicionar(Long transacaoId, String texto) {
-        if (comentarioRepository.existsByTransacaoId(transacaoId)) {
-            throw new IllegalArgumentException("Essa transação já possui um comentário.");
-        }
         Transacao transacao = transacaoService.buscarPorId(transacaoId);
 
         Comentario comentario = new Comentario();
@@ -44,7 +43,7 @@ public class ComentarioService {
                 .orElseThrow(() -> new IllegalArgumentException("Comentário não encontrado: " + id));
     }
 
-    public Comentario buscarPorTransacao(Long transacaoId) {
-        return comentarioRepository.findByTransacaoId(transacaoId).orElse(null);
+    public List<Comentario> buscarPorTransacao(Long transacaoId) {
+        return comentarioRepository.findByTransacaoId(transacaoId);
     }
 }

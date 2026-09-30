@@ -57,14 +57,13 @@
     <div th:if="${transacao.id != null}" class="mt-8 bg-slate-50 border border-slate-400 p-6">
         <h2 class="text-lg font-medium mb-3">Comentário</h2>
 
-        <form th:if="${comentario == null}"
-              th:action="@{/transacoes/{id}/comentario(id=${transacao.id})}" method="post" class="space-y-3">
+        <form th:action="@{/transacoes/{id}/comentario(id=${transacao.id})}" method="post" class="space-y-3">
             <textarea name="texto" rows="3" placeholder="Adicionar um comentário..."
                       class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-400"></textarea>
             <button type="submit" class="rounded-md bg-slate-900 text-white text-sm px-4 py-2 hover:bg-slate-700">Adicionar comentário</button>
         </form>
 
-        <div th:if="${comentario != null}" class="space-y-3">
+        <div th:each="comentario : ${comentarios}" class="mt-6 border-t border-slate-300 pt-4">
             <form th:action="@{/comentarios/{id}/editar(id=${comentario.id})}" method="post" class="space-y-3">
                 <textarea name="texto" rows="3" th:text="${comentario.texto}"
                           class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-400"></textarea>
