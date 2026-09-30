@@ -9,7 +9,8 @@
             <p class="mt-1 text-sm text-slate-600" th:text="'Conta: ' + ${transacao.conta.descricao}"></p>
         </div>
         <a th:href="@{/transacoes/{id}/editar(id=${transacao.id})}"
-           class="rounded-md bg-slate-900 px-4 py-2 text-center text-sm text-white hover:bg-slate-700">
+           class="inline-flex items-center justify-center gap-2 rounded-md bg-slate-900 px-4 py-2 text-center text-sm text-white hover:bg-slate-700">
+            <i data-lucide="pencil" class="h-4 w-4" aria-hidden="true"></i>
             Editar transação
         </a>
     </div>
@@ -49,7 +50,8 @@
 
     <div class="mt-6">
         <a th:href="@{/contas/{id}/transacoes(id=${transacao.conta.id})}"
-           class="rounded-md border border-slate-300 px-4 py-2 text-sm hover:bg-slate-50">
+           class="inline-flex items-center gap-2 rounded-md border border-slate-300 px-4 py-2 text-sm hover:bg-slate-50">
+            <i data-lucide="arrow-left" class="h-4 w-4" aria-hidden="true"></i>
             Voltar ao extrato
         </a>
     </div>

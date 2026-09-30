@@ -35,8 +35,14 @@
         </div>
 
         <div class="flex gap-3 pt-2">
-            <button type="submit" class="rounded-md bg-slate-900 text-white text-sm px-4 py-2 hover:bg-slate-700">Salvar</button>
-            <a th:href="@{/correntistas}" class="rounded-md border border-slate-300 text-sm px-4 py-2 hover:bg-slate-50">Cancelar</a>
+            <button type="submit" class="inline-flex items-center gap-2 rounded-md bg-slate-900 text-white text-sm px-4 py-2 hover:bg-slate-700">
+                <i data-lucide="save" class="h-4 w-4" aria-hidden="true"></i>
+                Salvar
+            </button>
+            <a th:href="@{/correntistas}" class="inline-flex items-center gap-2 rounded-md border border-slate-300 text-sm px-4 py-2 hover:bg-slate-50">
+                <i data-lucide="x" class="h-4 w-4" aria-hidden="true"></i>
+                Cancelar
+            </a>
         </div>
     </form>
 </section>

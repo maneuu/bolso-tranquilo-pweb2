@@ -48,8 +48,14 @@
         </div>
 
         <div class="flex gap-3 pt-2">
-            <button type="submit" class="rounded-md bg-slate-900 text-white text-sm px-4 py-2 hover:bg-slate-700">Salvar</button>
-            <a th:href="@{/contas/{id}/transacoes(id=${contaId})}" class="rounded-md border border-slate-300 text-sm px-4 py-2 hover:bg-slate-50">Cancelar</a>
+            <button type="submit" class="inline-flex items-center gap-2 rounded-md bg-slate-900 text-white text-sm px-4 py-2 hover:bg-slate-700">
+                <i data-lucide="save" class="h-4 w-4" aria-hidden="true"></i>
+                Salvar
+            </button>
+            <a th:href="@{/contas/{id}/transacoes(id=${contaId})}" class="inline-flex items-center gap-2 rounded-md border border-slate-300 text-sm px-4 py-2 hover:bg-slate-50">
+                <i data-lucide="x" class="h-4 w-4" aria-hidden="true"></i>
+                Cancelar
+            </a>
         </div>
     </form>
 
@@ -60,17 +66,26 @@
         <form th:action="@{/transacoes/{id}/comentario(id=${transacao.id})}" method="post" class="space-y-3">
             <textarea name="texto" rows="3" placeholder="Adicionar um comentário..."
                       class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-400"></textarea>
-            <button type="submit" class="rounded-md bg-slate-900 text-white text-sm px-4 py-2 hover:bg-slate-700">Adicionar comentário</button>
+            <button type="submit" class="inline-flex items-center gap-2 rounded-md bg-slate-900 text-white text-sm px-4 py-2 hover:bg-slate-700">
+                <i data-lucide="message-square-plus" class="h-4 w-4" aria-hidden="true"></i>
+                Adicionar comentário
+            </button>
         </form>
 
         <div th:each="comentario : ${comentarios}" class="mt-6 border-t border-slate-300 pt-4">
             <form th:action="@{/comentarios/{id}/editar(id=${comentario.id})}" method="post" class="space-y-3">
                 <textarea name="texto" rows="3" th:text="${comentario.texto}"
                           class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-400"></textarea>
-                <button type="submit" class="rounded-md bg-slate-900 text-white text-sm px-4 py-2 hover:bg-slate-700">Salvar comentário</button>
+                <button type="submit" class="inline-flex items-center gap-2 rounded-md bg-slate-900 text-white text-sm px-4 py-2 hover:bg-slate-700">
+                    <i data-lucide="save" class="h-4 w-4" aria-hidden="true"></i>
+                    Salvar comentário
+                </button>
             </form>
             <form th:action="@{/comentarios/{id}/excluir(id=${comentario.id})}" method="post">
-                <button type="submit" class="text-sm text-red-600 hover:underline">Excluir comentário</button>
+                <button type="submit" class="inline-flex items-center gap-1 text-sm text-red-600 hover:underline">
+                    <i data-lucide="trash-2" class="h-4 w-4" aria-hidden="true"></i>
+                    Excluir comentário
+                </button>
             </form>
         </div>
     </div>

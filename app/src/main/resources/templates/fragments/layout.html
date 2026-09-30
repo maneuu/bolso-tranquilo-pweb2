@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${titulo} ?: 'BolsoTranquilo'">BolsoTranquilo</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         body {
             font-family: Arial, Helvetica, sans-serif;
@@ -32,22 +33,40 @@
 
     <header class="border-b border-slate-950 bg-[#2f4f6f] text-slate-100">
         <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-            <a th:href="@{/}" class="font-semibold text-white">BolsoTranquilo</a>
+            <a th:href="@{/}" class="inline-flex items-center gap-2 font-semibold text-white">
+                <i data-lucide="wallet-cards" class="h-5 w-5" aria-hidden="true"></i>
+                BolsoTranquilo
+            </a>
             <nav class="flex items-center gap-4 text-sm text-slate-300">
-                <a th:href="@{/}" class="hover:text-white hover:underline">Início</a>
+                <a th:href="@{/}" class="inline-flex items-center gap-1 hover:text-white hover:underline">
+                    <i data-lucide="house" class="h-4 w-4" aria-hidden="true"></i>
+                    Início
+                </a>
 
-                <a th:if="${sessaoAdmin}" th:href="@{/correntistas}" class="hover:text-white hover:underline">Correntistas</a>
+                <a th:if="${sessaoAdmin}" th:href="@{/correntistas}" class="inline-flex items-center gap-1 hover:text-white hover:underline">
+                    <i data-lucide="users" class="h-4 w-4" aria-hidden="true"></i>
+                    Correntistas
+                </a>
                 <a th:if="${sessaoLogada and !sessaoAdmin}"
                    th:href="@{/correntistas/{id}/contas(id=${sessaoCorrentistaId})}"
-                   class="hover:text-white hover:underline">Minhas contas</a>
+                   class="inline-flex items-center gap-1 hover:text-white hover:underline">
+                    <i data-lucide="wallet" class="h-4 w-4" aria-hidden="true"></i>
+                    Minhas contas
+                </a>
 
                 <span th:if="${sessaoLogada}" class="border-l border-slate-600 pl-4 text-slate-300" th:text="${sessaoNome}"></span>
 
                 <form th:if="${sessaoLogada}" th:action="@{/logout}" method="post" class="inline">
-                    <button type="submit" class="text-slate-300 hover:text-white hover:underline">Sair</button>
+                    <button type="submit" class="inline-flex items-center gap-1 text-slate-300 hover:text-white hover:underline">
+                        <i data-lucide="log-out" class="h-4 w-4" aria-hidden="true"></i>
+                        Sair
+                    </button>
                 </form>
 
-                <a th:unless="${sessaoLogada}" th:href="@{/login}" class="hover:text-white hover:underline">Entrar</a>
+                <a th:unless="${sessaoLogada}" th:href="@{/login}" class="inline-flex items-center gap-1 hover:text-white hover:underline">
+                    <i data-lucide="log-in" class="h-4 w-4" aria-hidden="true"></i>
+                    Entrar
+                </a>
             </nav>
         </div>
     </header>
@@ -64,5 +83,6 @@
         BolsoTranquilo &mdash; Etapa 1
     </footer>
 
+    <script>lucide.createIcons();</script>
 </body>
 </html>

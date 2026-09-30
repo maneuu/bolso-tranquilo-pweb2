@@ -5,8 +5,9 @@
 <section>
     <div class="flex items-center justify-between mb-6">
         <h1 class="text-2xl font-semibold">Contas</h1>
-        <a th:href="@{/correntistas/{id}/contas/novo(id=${correntistaId})}"
-           class="inline-flex items-center rounded-md bg-slate-900 text-white text-sm px-4 py-2 hover:bg-slate-700">
+          <a th:href="@{/correntistas/{id}/contas/novo(id=${correntistaId})}"
+              class="inline-flex items-center gap-2 rounded-md bg-slate-900 text-white text-sm px-4 py-2 hover:bg-slate-700">
+                <i data-lucide="plus" class="h-4 w-4" aria-hidden="true"></i>
             Nova conta
         </a>
     </div>
@@ -33,7 +34,10 @@
                     </td>
                     <td class="px-4 py-3" th:text="${conta.diaFechamento} ?: '—'"></td>
                     <td class="px-4 py-3 text-right">
-                        <a th:href="@{/contas/{id}/transacoes(id=${conta.id})}" class="text-slate-700 hover:underline">Ver extrato</a>
+                        <a th:href="@{/contas/{id}/transacoes(id=${conta.id})}" class="inline-flex items-center gap-1 text-slate-700 hover:underline">
+                            <i data-lucide="receipt-text" class="h-4 w-4" aria-hidden="true"></i>
+                            Ver extrato
+                        </a>
                     </td>
                 </tr>
                 <tr th:if="${contas.isEmpty()}">

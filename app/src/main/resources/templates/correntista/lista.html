@@ -5,8 +5,9 @@
 <section>
     <div class="flex items-center justify-between mb-6">
         <h1 class="text-2xl font-semibold">Correntistas</h1>
-        <a th:href="@{/correntistas/novo}"
-           class="inline-flex items-center rounded-md bg-slate-900 text-white text-sm px-4 py-2 hover:bg-slate-700">
+          <a th:href="@{/correntistas/novo}"
+              class="inline-flex items-center gap-2 rounded-md bg-slate-900 text-white text-sm px-4 py-2 hover:bg-slate-700">
+                <i data-lucide="user-plus" class="h-4 w-4" aria-hidden="true"></i>
             Novo correntista
         </a>
     </div>
@@ -29,14 +30,23 @@
                     <td class="px-4 py-3" th:text="${c.papel}"></td>
                     <td class="px-4 py-3" th:text="${c.bloqueado} ? 'Sim' : 'Não'"></td>
                     <td class="px-4 py-3 text-right">
-                        <a th:href="@{/correntistas/{id}/contas(id=${c.id})}" class="text-slate-700 hover:underline">Ver contas</a>
+                        <a th:href="@{/correntistas/{id}/contas(id=${c.id})}" class="inline-flex items-center gap-1 text-slate-700 hover:underline">
+                            <i data-lucide="wallet" class="h-4 w-4" aria-hidden="true"></i>
+                            Ver contas
+                        </a>
                                                 <form th:if="${!c.bloqueado}" th:action="@{/correntistas/{id}/bloquear(id=${c.id})}"
                               method="post" class="ml-3 inline">
-                            <button type="submit" class="text-red-700 hover:underline">Bloquear</button>
+                            <button type="submit" class="inline-flex items-center gap-1 text-red-700 hover:underline">
+                                <i data-lucide="lock" class="h-4 w-4" aria-hidden="true"></i>
+                                Bloquear
+                            </button>
                         </form>
                                                 <form th:if="${c.bloqueado}" th:action="@{/correntistas/{id}/desbloquear(id=${c.id})}"
                                                             method="post" class="ml-3 inline">
-                                                        <button type="submit" class="text-green-700 hover:underline">Desbloquear</button>
+                                                        <button type="submit" class="inline-flex items-center gap-1 text-green-700 hover:underline">
+                                                            <i data-lucide="unlock" class="h-4 w-4" aria-hidden="true"></i>
+                                                            Desbloquear
+                                                        </button>
                                                 </form>
                     </td>
                 </tr>

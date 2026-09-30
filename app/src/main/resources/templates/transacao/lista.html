@@ -9,7 +9,8 @@
             <p class="mt-1 text-sm text-slate-600" th:text="'Conta: ' + ${conta.numero}"></p>
         </div>
         <a th:href="@{/contas/{id}/transacoes/novo(id=${conta.id})}"
-           class="inline-flex items-center justify-center border border-slate-500 bg-slate-100 px-3 py-2 text-sm text-slate-800 hover:bg-slate-200">
+           class="inline-flex items-center justify-center gap-2 border border-slate-500 bg-slate-100 px-3 py-2 text-sm text-slate-800 hover:bg-slate-200">
+            <i data-lucide="plus" class="h-4 w-4" aria-hidden="true"></i>
             Nova transação
         </a>
     </div>
@@ -26,11 +27,13 @@
             <input id="dataFim" type="date" name="dataFim" th:value="${dataFim}"
                    class="mt-1 rounded-md border border-slate-300 px-3 py-2 text-sm">
         </div>
-        <button type="submit" class="rounded-md bg-slate-900 px-4 py-2 text-sm text-white hover:bg-slate-700">
+        <button type="submit" class="inline-flex items-center justify-center gap-2 rounded-md bg-slate-900 px-4 py-2 text-sm text-white hover:bg-slate-700">
+            <i data-lucide="list-filter" class="h-4 w-4" aria-hidden="true"></i>
             Filtrar
         </button>
         <a th:href="@{/contas/{id}/transacoes(id=${conta.id})}"
-           class="rounded-md border border-slate-300 px-4 py-2 text-center text-sm hover:bg-slate-100">
+           class="inline-flex items-center justify-center gap-2 rounded-md border border-slate-300 px-4 py-2 text-center text-sm hover:bg-slate-100">
+            <i data-lucide="rotate-ccw" class="h-4 w-4" aria-hidden="true"></i>
             Limpar
         </a>
     </form>
