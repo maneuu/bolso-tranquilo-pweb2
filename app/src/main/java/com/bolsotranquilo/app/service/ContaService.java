@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.bolsotranquilo.app.model.Conta;
 import com.bolsotranquilo.app.model.Correntista;
+import com.bolsotranquilo.app.model.enums.TipoConta;
 import com.bolsotranquilo.app.repository.ContaRepository;
 
 @Service
@@ -22,6 +23,9 @@ public class ContaService {
     public Conta cadastrar(Long correntistaId, Conta conta) {
         Correntista correntista = correntistaService.buscarPorId(correntistaId);
         conta.setCorrentista(correntista);
+        if (TipoConta.CORRENTE.equals(conta.getTipo())) {
+            conta.setDiaFechamento(null);
+        }
         return contaRepository.save(conta);
     }
 

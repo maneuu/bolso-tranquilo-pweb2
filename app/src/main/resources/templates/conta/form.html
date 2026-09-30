@@ -45,7 +45,13 @@
     function toggleDiaFechamento() {
         const tipo = document.getElementById('tipo').value;
         const campo = document.getElementById('campoDiaFechamento');
+        const input = campo.querySelector('input');
+        const habilitado = tipo === 'CARTAO';
         campo.style.display = (tipo === 'CARTAO') ? 'block' : 'none';
+        input.disabled = !habilitado;
+        if (!habilitado) {
+            input.value = '';
+        }
     }
     document.addEventListener('DOMContentLoaded', toggleDiaFechamento);
 </script>
